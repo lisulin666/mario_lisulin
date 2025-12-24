@@ -1,0 +1,4 @@
+1.修改了data/tools.py中的按键设置
+2.为了减弱惯性增强手感修改了
+data/constants.py中的WALK_ACCEL和SMALL_TURNAROUND
+和data/components/mario.py中的walk逻辑

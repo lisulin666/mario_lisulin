@@ -80,6 +80,7 @@ class Level1(tools._State):
         self.setup_mario()
         self.setup_checkpoints()
         self.setup_spritegroups()
+        self.setup_school_logo()
 
 
     def setup_background(self):
@@ -379,6 +380,21 @@ class Level1(tools._State):
 
         self.mario_and_enemy_group = pg.sprite.Group(self.mario,
                                                      self.enemy_group)
+
+    def setup_school_logo(self):
+        """Load and scale school logo for display in corner"""
+        try:
+            logo_path = "OIP-C.jpg"
+            if os.path.exists(logo_path):
+                logo_image = pg.image.load(logo_path)
+                # Scale logo to small size (60x60 pixels) to not interfere with game
+                self.school_logo = pg.transform.scale(logo_image, (60, 60))
+                self.school_logo.set_alpha(200)  # Make it semi-transparent
+            else:
+                self.school_logo = None
+        except Exception as e:
+            print(f"Error loading school logo: {e}")
+            self.school_logo = None
 
 
     def update(self, surface, keys, current_time):
@@ -1828,5 +1844,10 @@ class Level1(tools._State):
         self.overhead_info_display.draw(surface)
         for score in self.moving_score_list:
             score.draw(surface)
+        
+        # Draw school logo in bottom left corner
+        if hasattr(self, 'school_logo') and self.school_logo is not None:
+            logo_rect = self.school_logo.get_rect(bottomleft=(10, c.SCREEN_HEIGHT - 10))
+            surface.blit(self.school_logo, logo_rect)
 
 
